@@ -3,23 +3,28 @@ package pages;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.sql.*;
 
 public class MainMenu {
 
     private JFrame frmMainMenu;
     private JLabel lblGreeting;
+    private String serialNumber;
+    private Connection conn;
 
     /**
      * Create the application.
      */
-    public MainMenu(String serial) {
-        initialize(serial);
+    public MainMenu(String serialNumber, Connection conn) {
+        this.serialNumber = serialNumber;
+        this.conn = conn;
+        initialize();
     }
 
     /**
      * Initialize the contents of the frame.
      */
-    private void initialize(String serial) {
+    private void initialize() {
         frmMainMenu = new JFrame();
         frmMainMenu.setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\murei\\OneDrive\\Documents\\codes\\SAMSUNG Recall Management\\photos used\\samsungLogo.png"));
         frmMainMenu.setTitle("Main Menu");
@@ -51,40 +56,48 @@ public class MainMenu {
         btnAppointment.setBounds(99, 350, 444, 50);
         frmMainMenu.getContentPane().add(btnAppointment);
 
-        JButton btnSwap = new JButton("SWAP ITEMS");
-        btnSwap.setForeground(new Color(13, 38, 167));
-        btnSwap.setFont(new Font("Tahoma", Font.BOLD, 20));
-        btnSwap.setBounds(99, 430, 444, 50);
-        frmMainMenu.getContentPane().add(btnSwap);
+        JButton btnTransaction = new JButton("VIEW TRANSACTIONS");
+        btnTransaction.setForeground(new Color(13, 38, 167));
+        btnTransaction.setFont(new Font("Tahoma", Font.BOLD, 20));
+        btnTransaction.setBounds(99, 430, 444, 50);
+        frmMainMenu.getContentPane().add(btnTransaction);
 
-        JLabel mainMenubg = new JLabel("");
-        mainMenubg.setIcon(new ImageIcon("C:\\Users\\murei\\OneDrive\\Documents\\codes\\SAMSUNG Recall Management\\photos used\\mainMenu.png"));
-        mainMenubg.setBounds(0, 93, 1186, 570);
-        frmMainMenu.getContentPane().add(mainMenubg);
+        JPanel panel = new JPanel();
+        panel.setBackground(new Color(13, 38, 167));
+        panel.setBounds(0, 130, 1186, 100);
+        frmMainMenu.getContentPane().add(panel);
+        panel.setLayout(null);
 
-        lblGreeting = new JLabel("Hi! User: " + serial);
+        lblGreeting = new JLabel("Hi! User: " + serialNumber);
+        lblGreeting.setForeground(new Color(255, 255, 255));
         lblGreeting.setFont(new Font("Tahoma", Font.BOLD, 25));
-        lblGreeting.setBounds(99, 178, 514, 43);
-        frmMainMenu.getContentPane().add(lblGreeting);
+        lblGreeting.setBounds(30, 37, 562, 50);
+        panel.add(lblGreeting);
 
-        // Action listener for the btnInfo button
+        JLabel mainMenuBanner = new JLabel("");
+        mainMenuBanner.setIcon(new ImageIcon("C:\\Users\\murei\\OneDrive\\Documents\\codes\\SAMSUNG Recall Management\\photos used\\MainMenuBanner.png"));
+        mainMenuBanner.setBounds(0, 140, 1186, 523);
+        frmMainMenu.getContentPane().add(mainMenuBanner);
+
+        // Action listeners for buttons
         btnInfo.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                DeviceInfo deviceInfo = new DeviceInfo();
-                deviceInfo.main(null);
-                frmMainMenu.dispose();
+                // Navigate to DeviceInfo page
+                EventQueue.invokeLater(new Runnable() {
+                    public void run() {
+                        try {
+                            DeviceInfo window = new DeviceInfo(serialNumber, conn);
+                            window.getFrame().setVisible(true);
+                            frmMainMenu.dispose();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
             }
         });
 
-        // Action listener for the btnAppointment button
-        btnAppointment.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                BookAppointment bookAppointment = new BookAppointment();
-                bookAppointment.main(null);
-                frmMainMenu.dispose();
-            }
-        });
-
+        // Add action listeners for other buttons similarly...
     }
 
     public JFrame getFrame() {
