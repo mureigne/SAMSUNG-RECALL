@@ -1,0 +1,185 @@
+package pages;
+
+import java.awt.EventQueue;
+import javax.swing.JFrame;
+import java.awt.Color;
+import javax.swing.JLabel;
+import javax.swing.ImageIcon;
+import java.awt.Font;
+import javax.swing.JTextField;
+import javax.swing.JButton;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import javax.swing.JOptionPane;
+
+public class FirstPage {
+
+	private JFrame frmStartPage;
+	private JTextField textFieldSerial;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		Connection con = null;
+		try {
+			
+			con = (Connection)DriverManager.getConnection("jdbc:mysql://localhost:3306/samsungdb", "root", "sinrae_16");
+			
+			if(con!=null) {
+				EventQueue.invokeLater(new Runnable() {
+					public void run() {
+						try {
+							FirstPage window = new FirstPage();
+							window.frmStartPage.setVisible(true);
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
+				});
+			}
+		} catch (Exception e) {
+			System.out.println("not connected");
+		}
+		
+	}
+
+	/**
+	 * Create the application.
+	 */
+	public FirstPage() {
+		initialize();
+	}
+
+	/**
+	 * Initialize the contents of the frame.
+	 */
+	private void initialize() {
+		frmStartPage = new JFrame();
+		frmStartPage.setTitle("Start Page\r\n");
+		frmStartPage.setIconImage(Toolkit.getDefaultToolkit().getImage("\"C:\\Users\\Francyne Rigor\\Downloads\\photos used\""));
+		frmStartPage.getContentPane().setBackground(new Color(255, 255, 255));
+		frmStartPage.setBounds(100, 100, 1200, 700);
+		frmStartPage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmStartPage.getContentPane().setLayout(null);
+		
+		JLabel StartPageBanner = new JLabel("");
+		StartPageBanner.setVerticalAlignment(SwingConstants.TOP);
+		StartPageBanner.setIcon(new ImageIcon("\"C:\\Users\\Francyne Rigor\\Downloads\\photos used\\StartPageBanner.png\""));
+		StartPageBanner.setBounds(0, 258, 1186, 405);
+		frmStartPage.getContentPane().add(StartPageBanner);
+		
+		JLabel samsungLogo = new JLabel("");
+		samsungLogo.setIcon(new ImageIcon("\"C:\\Users\\Francyne Rigor\\Downloads\\photos used\\samsungLogo.png\""));
+		samsungLogo.setBounds(10, 10, 150, 78);
+		frmStartPage.getContentPane().add(samsungLogo);
+		
+		JPanel panel = new JPanel();
+		panel.setBackground(new Color(13, 38, 167));
+		panel.setBounds(0, 93, 1186, 175);
+		frmStartPage.getContentPane().add(panel);
+		panel.setLayout(null);
+		
+		JLabel lblCheck = new JLabel("CHECK YOUR DEVICE'S CONDITION");
+		lblCheck.setForeground(new Color(255, 255, 255));
+		lblCheck.setBounds(20, 10, 489, 38);
+		panel.add(lblCheck);
+		lblCheck.setFont(new Font("Tahoma", Font.BOLD, 25));
+		
+		JLabel lblSerial = new JLabel("ENTER A DEVICE'S SERIAL NUMBER");
+		lblSerial.setForeground(new Color(255, 255, 255));
+		lblSerial.setBounds(30, 60, 400, 25);
+		panel.add(lblSerial);
+		lblSerial.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		
+		textFieldSerial = new JTextField();
+		textFieldSerial.setBounds(30, 90, 300, 25);
+		panel.add(textFieldSerial);
+		textFieldSerial.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		textFieldSerial.setColumns(10);
+		lblSerial.setLabelFor(textFieldSerial);
+		
+		JButton btnReset = new JButton("RESET");
+		btnReset.setBounds(30, 130, 100, 25);
+		panel.add(btnReset);
+		btnReset.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		
+		JButton btnSubmit = new JButton("SUBMIT");
+		btnSubmit.setBounds(228, 130, 100, 25);
+		panel.add(btnSubmit);
+		btnSubmit.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		
+		// Action listener for the reset button
+		btnReset.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				textFieldSerial.setText("");
+			}
+		});
+		
+		// Action listener for the submit button
+		btnSubmit.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String serial = textFieldSerial.getText();
+                if (serial.isEmpty()) {
+                    JOptionPane.showMessageDialog(frmStartPage, "Please enter the device's serial number.", "Input Required", JOptionPane.WARNING_MESSAGE);
+                } else {
+                    // Check if the serial number exists in the database
+                    boolean serialExists = checkSerialInDatabase(serial);
+                    if (serialExists) {
+                        // Proceed to the MainMenu frame
+                        MainMenu mainMenu = new MainMenu();
+                        mainMenu.main(null);
+                        frmStartPage.dispose();
+                    } else {
+                        JOptionPane.showMessageDialog(frmStartPage, "Serial number not found in the database.", "Invalid Serial", JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+            }
+
+            private boolean checkSerialInDatabase(String serial) {
+                boolean exists = false;
+                Connection conn = null;
+                PreparedStatement pstmt = null;
+                ResultSet rs = null;
+                try {
+                    // Replace with your database connection details
+                    String url = "jdbc:mysql://localhost:3306/samsungdb";
+                    String user = "root";
+                    String password = "sinrae_16";
+
+                    conn = DriverManager.getConnection(url, user, password);
+                    String sql = "SELECT COUNT(*) FROM device WHERE SerialNum = ?";
+                    pstmt = conn.prepareStatement(sql);
+                    pstmt.setString(1, serial);
+                    rs = pstmt.executeQuery();
+
+                    if (rs.next()) {
+                        int count = rs.getInt(1);
+                        exists = (count > 0);
+                    }
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                    JOptionPane.showMessageDialog(frmStartPage, "Database error: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                } finally {
+                    try {
+                        if (rs != null) rs.close();
+                        if (pstmt != null) pstmt.close();
+                        if (conn != null) conn.close();
+                    } catch (SQLException ex) {
+                        ex.printStackTrace();
+                    }
+                }
+                return exists;
+            }
+        });
+    }
+}
