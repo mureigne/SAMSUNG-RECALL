@@ -1,0 +1,152 @@
+package pages;
+
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.DefaultCellEditor;
+
+public class Appointments {
+
+	private JFrame frame;
+	private JTable table;
+	private DefaultTableModel model;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Appointments window = new Appointments();
+					window.frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the application.
+	 */
+	public Appointments() {
+		initialize();
+	}
+
+	/**
+	 * Initialize the contents of the frame.
+	 */
+	private void initialize() {
+		frame = new JFrame();
+		frame.setBounds(100, 100, 1200, 600);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.getContentPane().setLayout(null);
+
+		String[] columnNames = {"Transaction ID", "Time", "Date", "Status", "Action"};
+		Object[][] data = {
+			{"1", "10:00 AM", "2024-06-24", "Completed", null},
+			{"2", "11:00 AM", "2024-06-24", "Missed", null}
+		};
+
+		model = new DefaultTableModel(data, columnNames) {
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				return column == 4; // Only the action column is editable
+			}
+		};
+
+		table = new JTable(model) {
+			@Override
+			public Component prepareRenderer(TableCellRenderer renderer, int row, int column) {
+				Component c = super.prepareRenderer(renderer, row, column);
+				if (column != 4) { // Skip the Action column
+					Color color = (Color) model.getValueAt(row, 4);
+					if (color != null) {
+						c.setBackground(color);
+					} else {
+						c.setBackground(Color.WHITE);
+					}
+				}
+				return c;
+			}
+		};
+
+		table.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		table.setRowHeight(30);
+
+		table.getColumnModel().getColumn(4).setCellRenderer(new ActionRenderer());
+		table.getColumnModel().getColumn(4).setCellEditor(new ActionEditor());
+
+		JScrollPane scrollPane = new JScrollPane(table);
+		scrollPane.setBounds(51, 50, 1083, 400);
+		frame.getContentPane().add(scrollPane);
+	}
+
+	class ActionRenderer extends DefaultTableCellRenderer {
+		@Override
+		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+			JPanel panel = new JPanel();
+			JButton btnInactive = new JButton("Inactive");
+			JButton btnDone = new JButton("Done");
+
+			panel.add(btnInactive);
+			panel.add(btnDone);
+
+			return panel;
+		}
+	}
+
+	class ActionEditor extends DefaultCellEditor {
+		private JPanel panel;
+		private JButton btnInactive;
+		private JButton btnDone;
+
+		public ActionEditor() {
+			super(new JTextField());
+			panel = new JPanel();
+			btnInactive = new JButton("Inactive");
+			btnDone = new JButton("Done");
+
+			panel.add(btnInactive);
+			panel.add(btnDone);
+
+			btnInactive.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					fireEditingStopped();
+					int row = table.getSelectedRow();
+					model.setValueAt(Color.RED, row, 4); // Set the color in the model
+					table.repaint();
+				}
+			});
+
+			btnDone.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					fireEditingStopped();
+					int row = table.getSelectedRow();
+					model.setValueAt(Color.GREEN, row, 4); // Set the color in the model
+					table.repaint();
+				}
+			});
+		}
+
+		@Override
+		public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
+			return panel;
+		}
+	}
+}
