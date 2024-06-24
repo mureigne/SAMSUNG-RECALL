@@ -1,0 +1,128 @@
+package pages;
+
+import java.awt.EventQueue;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+import javax.swing.JPasswordField;
+import javax.swing.JButton;
+import javax.swing.JOptionPane;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import javax.swing.ImageIcon;
+import java.awt.Font;
+import javax.swing.JPanel;
+import java.awt.Color;
+import javax.swing.SwingConstants;
+import java.awt.Toolkit;
+
+public class AdminLogIn {
+
+	private JFrame frame;
+	private JTextField textFieldAdminID;
+	private JPasswordField passwordField;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					AdminLogIn window = new AdminLogIn();
+					window.frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the application.
+	 */
+	public AdminLogIn() {
+		initialize();
+	}
+
+	/**
+	 * Initialize the contents of the frame.
+	 */
+	private void initialize() {
+		frame = new JFrame();
+		frame.setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\murei\\OneDrive\\Documents\\codes\\SAMSUNG Recall Management\\photos used\\samsungLogo.png"));
+		frame.setBounds(100, 100, 1200, 700);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.getContentPane().setLayout(null);
+
+		// Headline
+		JLabel lblHeadline = new JLabel("Enter Your Credentials");
+		lblHeadline.setHorizontalAlignment(SwingConstants.CENTER);
+		lblHeadline.setForeground(new Color(255, 255, 255));
+		lblHeadline.setFont(new Font("Tahoma", Font.BOLD, 40));
+		lblHeadline.setBounds(278, 187, 630, 93);
+		frame.getContentPane().add(lblHeadline);
+		
+		// Admin ID Label
+		JLabel lblAdminID = new JLabel("Admin ID:");
+		lblAdminID.setForeground(new Color(255, 255, 255));
+		lblAdminID.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblAdminID.setBounds(400, 300, 100, 30);
+		frame.getContentPane().add(lblAdminID);
+		
+		// Admin ID Text Field
+		textFieldAdminID = new JTextField();
+		textFieldAdminID.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		textFieldAdminID.setBounds(500, 300, 300, 40);
+		frame.getContentPane().add(textFieldAdminID);
+		textFieldAdminID.setColumns(10);
+		
+		// Password Label
+		JLabel lblPassword = new JLabel("Password:");
+		lblPassword.setForeground(new Color(255, 255, 255));
+		lblPassword.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblPassword.setBounds(400, 350, 100, 30);
+		frame.getContentPane().add(lblPassword);
+		
+		// Password Field
+		passwordField = new JPasswordField();
+		passwordField.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		passwordField.setBounds(500, 350, 300, 40);
+		frame.getContentPane().add(passwordField);
+		
+		JLabel samsungLogo = new JLabel("");
+		samsungLogo.setIcon(new ImageIcon("C:\\Users\\murei\\OneDrive\\Documents\\codes\\SAMSUNG Recall Management\\photos used\\samsungLogo.png"));
+		samsungLogo.setBounds(518, 37, 150, 78);
+		frame.getContentPane().add(samsungLogo);
+		
+		JPanel panel = new JPanel();
+		panel.setBackground(new Color(13, 38, 167));
+		panel.setForeground(new Color(13, 38, 167));
+		panel.setBounds(0, 152, 1186, 405);
+		frame.getContentPane().add(panel);
+		panel.setLayout(null);
+		
+		// Submit Button
+		JButton btnSubmit = new JButton("Submit");
+		btnSubmit.setBounds(533, 280, 120, 40);
+		panel.add(btnSubmit);
+		btnSubmit.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		btnSubmit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String adminID = textFieldAdminID.getText();
+				String password = new String(passwordField.getPassword());
+				
+				if (!adminID.equals("SamsungAdmin")) {
+					JOptionPane.showMessageDialog(frame, "Admin ID invalid");
+				} else if (!password.equals("samsung123")) {
+					JOptionPane.showMessageDialog(frame, "Password invalid");
+				} else {
+					JOptionPane.showMessageDialog(frame, "Login successful");
+					frame.setVisible(false);
+					AdminMenu adminMenu = new AdminMenu();
+					adminMenu.setVisible(true);
+				}
+			}
+		});
+	}
+}
