@@ -60,7 +60,7 @@ public class DeviceInfo {
      */
     private void initialize() {
         frmDeviceInformation = new JFrame();
-        frmDeviceInformation.setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\murei\\OneDrive\\Documents\\codes\\SAMSUNG Recall Management\\photos used\\samsungLogo.png"));
+        frmDeviceInformation.setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\Francyne Rigor\\Downloads\\photos used\\samsungLogo.png"));
         frmDeviceInformation.setTitle("Device Information");
         frmDeviceInformation.getContentPane().setBackground(new Color(240, 240, 240));
         frmDeviceInformation.setBounds(100, 100, 700, 650);
@@ -68,7 +68,7 @@ public class DeviceInfo {
         frmDeviceInformation.getContentPane().setLayout(null);
 
         JLabel samsungLogo = new JLabel("");
-        samsungLogo.setIcon(new ImageIcon("C:\\Users\\murei\\OneDrive\\Documents\\codes\\SAMSUNG Recall Management\\photos used\\samsungLogo.png"));
+        samsungLogo.setIcon(new ImageIcon("C:\\Users\\Francyne Rigor\\Downloads\\photos used\\samsungLogo.png"));
         samsungLogo.setBounds(10, 10, 150, 78);
         frmDeviceInformation.getContentPane().add(samsungLogo);
 
@@ -83,24 +83,19 @@ public class DeviceInfo {
         separator.setBounds(0, 87, 686, 22); // Adjusted width to fit the window size
         frmDeviceInformation.getContentPane().add(separator);
 
-        JLabel lblOwnerID = new JLabel("OWNER ID:");
-        lblOwnerID.setFont(new Font("Tahoma", Font.BOLD, 15));
-        lblOwnerID.setBounds(185, 108, 150, 25);
-        frmDeviceInformation.getContentPane().add(lblOwnerID);
-
         lblProductName = new JLabel("PRODUCT NAME:");
         lblProductName.setFont(new Font("Tahoma", Font.BOLD, 15));
-        lblProductName.setBounds(185, 149, 350, 25);
+        lblProductName.setBounds(185, 134, 350, 25);
         frmDeviceInformation.getContentPane().add(lblProductName);
 
         lblPurchaseDate = new JLabel("PURCHASE DATE:");
         lblPurchaseDate.setFont(new Font("Tahoma", Font.BOLD, 15));
-        lblPurchaseDate.setBounds(185, 190, 350, 25);
+        lblPurchaseDate.setBounds(185, 170, 350, 25);
         frmDeviceInformation.getContentPane().add(lblPurchaseDate);
 
         JLabel lblSerialNumber = new JLabel("SERIAL NUMBER: " + serialNumber); // Example usage of serialNumber
         lblSerialNumber.setFont(new Font("Tahoma", Font.BOLD, 15));
-        lblSerialNumber.setBounds(185, 233, 350, 25);
+        lblSerialNumber.setBounds(185, 206, 350, 25);
         frmDeviceInformation.getContentPane().add(lblSerialNumber);
 
         JLabel lblYourDevicesCondition = new JLabel("YOUR DEVICE'S CONDITION:");
