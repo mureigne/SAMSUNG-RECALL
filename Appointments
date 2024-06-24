@@ -55,10 +55,10 @@ public class Appointments {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 
-		String[] columnNames = {"Transaction ID", "Time", "Date", "Status", "Action"};
+		String[] columnNames = {"Transaction ID", "Time", "Date", "Type", "Action"};
 		Object[][] data = {
-			{"1", "10:00 AM", "2024-06-24", "Completed", null},
-			{"2", "11:00 AM", "2024-06-24", "Missed", null}
+			{"1", "10:00 AM", "2024-06-24", "Refund", null},
+			{"2", "11:00 AM", "2024-06-24", "Recall", null}
 		};
 
 		model = new DefaultTableModel(data, columnNames) {
