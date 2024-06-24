@@ -1,0 +1,135 @@
+package pages;
+
+import java.awt.Color;
+import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.Toolkit;
+
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JSeparator;
+import javax.swing.JTextField;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+
+public class SignIn {
+
+	private JFrame frmSignIn;
+	private JTextField textFieldEmail;
+	private JTextField textFieldPassword;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					SignIn window = new SignIn();
+					window.frmSignIn.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the application.
+	 */
+	public SignIn() {
+		initialize();
+	}
+
+	/**
+	 * Initialize the contents of the frame.
+	 */
+	private void initialize() {
+		frmSignIn = new JFrame();
+		frmSignIn.setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\Francyne Rigor\\Downloads\\photos used\\samsungLogo.png"));
+		frmSignIn.setTitle("Main Menu");
+		frmSignIn.getContentPane().setBackground(new Color(255, 255, 255));
+		frmSignIn.setBounds(100, 100, 1200, 700);
+		frmSignIn.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmSignIn.getContentPane().setLayout(null);
+	    
+	    JLabel lblSamsungAccount = new JLabel("SAMSUNG ACCOUNT");
+	    lblSamsungAccount.setForeground(Color.WHITE);
+	    lblSamsungAccount.setFont(new Font("Tahoma", Font.BOLD, 23));
+	    lblSamsungAccount.setBounds(185, 212, 258, 33);
+	    frmSignIn.getContentPane().add(lblSamsungAccount);
+	    
+	    JButton btnSignIn = new JButton("SIGN IN");
+	    btnSignIn.addActionListener(new ActionListener() {
+	    	public void actionPerformed(ActionEvent e) {
+	    		BookAppointment window = new BookAppointment();
+	    		BookAppointment.main(null);
+	    		frmSignIn.dispose();
+	    	}
+	    });
+	    btnSignIn.setFont(new Font("Tahoma", Font.BOLD, 15));
+	    btnSignIn.setForeground(new Color(13, 38, 167));
+	    btnSignIn.setBounds(250, 453, 117, 33);
+	    frmSignIn.getContentPane().add(btnSignIn);
+	    
+	    JLabel lblPassword = new JLabel("Password:");
+	    lblPassword.setForeground(Color.WHITE);
+	    lblPassword.setFont(new Font("Tahoma", Font.BOLD, 15));
+	    lblPassword.setBounds(153, 361, 140, 14);
+	    frmSignIn.getContentPane().add(lblPassword);
+	    
+	    textFieldPassword = new JTextField();
+	    textFieldPassword.setForeground(new Color(255, 255, 255));
+	    textFieldPassword.setFont(new Font("Tahoma", Font.PLAIN, 18));
+	    textFieldPassword.setColumns(10);
+	    textFieldPassword.setBounds(153, 386, 311, 42);
+	    frmSignIn.getContentPane().add(textFieldPassword);
+	    
+	    JLabel lblEmail = new JLabel("Email:");
+	    lblEmail.setForeground(new Color(255, 255, 255));
+	    lblEmail.setFont(new Font("Tahoma", Font.BOLD, 15));
+	    lblEmail.setBounds(153, 276, 46, 14);
+	    frmSignIn.getContentPane().add(lblEmail);
+	    
+	    textFieldEmail = new JTextField();
+	    textFieldEmail.setFont(new Font("Tahoma", Font.PLAIN, 18));
+	    textFieldEmail.setBounds(153, 301, 311, 42);
+	    frmSignIn.getContentPane().add(textFieldEmail);
+	    textFieldEmail.setColumns(10);
+
+	    JSeparator separator = new JSeparator();
+	    separator.setForeground(new Color(13, 38, 167));
+	    separator.setBackground(new Color(13, 38, 167));
+	    separator.setBounds(0, 98, 1186, 22);
+	    frmSignIn.getContentPane().add(separator);
+
+	    JLabel samsungLogo = new JLabel("");
+	    samsungLogo.setIcon(new ImageIcon("C:\\Users\\Francyne Rigor\\Downloads\\photos used\\samsungLogo.png"));
+	    samsungLogo.setBounds(10, 10, 150, 78);
+	    frmSignIn.getContentPane().add(samsungLogo);
+	    
+	    JPanel panel = new JPanel();
+        panel.setBackground(new Color(13, 38, 167));
+        panel.setBounds(0, 98, 1186, 67);
+        frmSignIn.getContentPane().add(panel);
+        panel.setLayout(null);
+        
+        JLabel lblSignInGreeting = new JLabel("Welcome! Sign in to get started. ");
+        lblSignInGreeting.setForeground(new Color(255, 255, 255));
+        lblSignInGreeting.setFont(new Font("Tahoma", Font.BOLD, 25));
+        lblSignInGreeting.setBounds(23, 11, 562, 50);
+        panel.add(lblSignInGreeting);
+        
+        JLabel mainMenuBanner = new JLabel("");
+        mainMenuBanner.setBackground(new Color(255, 255, 255));
+        mainMenuBanner.setIcon(new ImageIcon("C:\\Users\\Francyne Rigor\\Downloads\\photos used\\mainMenu.png"));
+        mainMenuBanner.setBounds(0, 138, 1186, 523);
+        frmSignIn.getContentPane().add(mainMenuBanner);
+
+        
+        
+	}
+}
