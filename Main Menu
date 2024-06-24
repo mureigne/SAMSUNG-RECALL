@@ -26,7 +26,7 @@ public class MainMenu {
      */
     private void initialize() {
         frmMainMenu = new JFrame();
-        frmMainMenu.setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\murei\\OneDrive\\Documents\\codes\\SAMSUNG Recall Management\\photos used\\samsungLogo.png"));
+        frmMainMenu.setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\Francyne Rigor\\Downloads\\photos used\\samsungLogo.png"));
         frmMainMenu.setTitle("Main Menu");
         frmMainMenu.getContentPane().setBackground(new Color(255, 255, 255));
         frmMainMenu.setBounds(100, 100, 1200, 700);
@@ -40,7 +40,7 @@ public class MainMenu {
         frmMainMenu.getContentPane().add(separator);
 
         JLabel samsungLogo = new JLabel("");
-        samsungLogo.setIcon(new ImageIcon("C:\\Users\\murei\\OneDrive\\Documents\\codes\\SAMSUNG Recall Management\\photos used\\samsungLogo.png"));
+        samsungLogo.setIcon(new ImageIcon("C:\\Users\\Francyne Rigor\\Downloads\\photos used\\samsungLogo.png"));
         samsungLogo.setBounds(10, 10, 150, 78);
         frmMainMenu.getContentPane().add(samsungLogo);
 
@@ -51,12 +51,19 @@ public class MainMenu {
         frmMainMenu.getContentPane().add(btnInfo);
 
         JButton btnAppointment = new JButton("BOOK AN APPOINTMENT");
+        btnAppointment.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		SignIn window = new SignIn();
+        		SignIn.main(null);
+				frmMainMenu.dispose();
+        	}
+        });
         btnAppointment.setForeground(new Color(13, 38, 167));
         btnAppointment.setFont(new Font("Tahoma", Font.BOLD, 20));
         btnAppointment.setBounds(99, 350, 444, 50);
         frmMainMenu.getContentPane().add(btnAppointment);
 
-        JButton btnTransaction = new JButton("VIEW TRANSACTIONS");
+        JButton btnTransaction = new JButton("SWAP ITEMS");
         btnTransaction.setForeground(new Color(13, 38, 167));
         btnTransaction.setFont(new Font("Tahoma", Font.BOLD, 20));
         btnTransaction.setBounds(99, 430, 444, 50);
@@ -64,18 +71,18 @@ public class MainMenu {
 
         JPanel panel = new JPanel();
         panel.setBackground(new Color(13, 38, 167));
-        panel.setBounds(0, 130, 1186, 100);
+        panel.setBounds(0, 98, 1186, 69);
         frmMainMenu.getContentPane().add(panel);
         panel.setLayout(null);
 
-        lblGreeting = new JLabel("Hi! User: " + serialNumber);
+        lblGreeting = new JLabel("Hi! Your Serial Number is: " + serialNumber);
         lblGreeting.setForeground(new Color(255, 255, 255));
         lblGreeting.setFont(new Font("Tahoma", Font.BOLD, 25));
-        lblGreeting.setBounds(30, 37, 562, 50);
+        lblGreeting.setBounds(23, 11, 562, 50);
         panel.add(lblGreeting);
-
+        
         JLabel mainMenuBanner = new JLabel("");
-        mainMenuBanner.setIcon(new ImageIcon("C:\\Users\\murei\\OneDrive\\Documents\\codes\\SAMSUNG Recall Management\\photos used\\MainMenuBanner.png"));
+        mainMenuBanner.setIcon(new ImageIcon("C:\\Users\\Francyne Rigor\\Downloads\\photos used\\mainMenu.png"));
         mainMenuBanner.setBounds(0, 140, 1186, 523);
         frmMainMenu.getContentPane().add(mainMenuBanner);
 
@@ -96,8 +103,6 @@ public class MainMenu {
                 });
             }
         });
-
-        // Add action listeners for other buttons similarly...
     }
 
     public JFrame getFrame() {
